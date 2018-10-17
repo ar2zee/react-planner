@@ -3,6 +3,9 @@
 # dependencies
 /node_modules
 
+# keys
+src/config/key_values.js
+
 # testing
 /coverage
 
