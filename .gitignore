@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+functions/node_modules
 
 # keys
 src/config/key_values.js
