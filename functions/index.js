@@ -3,10 +3,6 @@ const admin = require('firebase-admin');
 
 admin.initializeApp(functions.config().firebase);
 
-const firestore = new Firestore();
-const settings = {/* your settings... */ timestampsInSnapshots: true};
-firestore.settings(settings);
-
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
@@ -27,10 +23,28 @@ exports.projectCreated = functions.firestore
         const project = doc.data();
         const notification = {
             content: 'Added a new project',
-            user: project.authorFirstName + project.authorLastName,
+            user: `${project.authorFirstName} ${project.authorLastName}`,
             time: admin.firestore.FieldValue.serverTimestamp()
         }
 
         return createNotification(notification);
 
+})
+
+exports.userJoined = functions.auth.user()
+    .onCreate(user => {
+
+        return admin.firestore().collection('user')
+            .doc(user.uid).get().then(doc => {
+
+                const newUser = doc.data();
+                const notification = {
+                    content: 'Joined the app',
+                    user: `${newUser.firstName} ${newUser.lastName}`,
+                    time: admin.firestore.FieldValue.serverTimestamp()
+                }
+
+                return createNotification(notification);
+
+            })
 })
