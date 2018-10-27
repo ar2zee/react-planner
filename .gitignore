@@ -12,6 +12,7 @@ src/config/key_values.js
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
